@@ -22,7 +22,7 @@ p{
 #container{
     margin-top: 20px;
     width: 100%;
-    max-height: 255x;
+    max-height: 260px;
     max-width: 500px;
     display: flex;
     flex-direction: column;
@@ -30,6 +30,12 @@ p{
     align-items: center;
     gap: 5px;
     overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#container::-webkit-scrollbar {
+  display: none;
 }
 
 .task{
@@ -38,4 +44,42 @@ p{
     background-color: orange;
     padding: 5px 10px;
     font-size: 25px;
+}
+
+#menu{
+    position: absolute;
+    width: 80%;
+    max-width: 300px;
+    height: 60px;
+    background: black;
+    bottom: 15px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-sizing: border-box;
+    padding: 10px 10px;
+}
+
+#menu input{
+    padding: 0;
+    height: 100%;
+    border-radius: 45px;
+    border: none;
+    width: 70%;
+    text-align: center;
+    font-size: 20px;
+}
+
+#menu button{
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    border: none;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    cursor: pointer;
 }
