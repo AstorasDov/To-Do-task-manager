@@ -15,7 +15,7 @@ h1,p{
     margin: 0;
 }
 
-p{
+#reminder{
     color: gray;
 }
 
@@ -39,11 +39,12 @@ p{
 }
 
 .task{
-    color: black;
+    color: white;
     text-align: center;
     background-color: orange;
     padding: 5px 10px;
     font-size: 25px;
+    max-width: 300px;
 }
 
 #menu{
@@ -82,4 +83,10 @@ p{
     justify-content: center;
     background-color: white;
     cursor: pointer;
+}
+
+@media (max-width:480px){
+    .task{
+        max-width:200px;
+    }
 }
