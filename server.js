@@ -1,5 +1,5 @@
 const http = require('http');
-const {readFile} = require('fs');
+const {readFile,writeFile} = require('fs');
 const path = require('path');
 
 const read = async (path) => {
@@ -11,6 +11,14 @@ const read = async (path) => {
     });
 }
 
+const write = async (path,data) => {
+    return new Promise((resolve,reject)=>{
+        writeFile(path,data,'utf-8',(err)=>{
+            if(err)reject(err);
+            else resolve();
+        });
+    });
+}
 
 const server = http.createServer(async(req,res)=>{
     const extname = path.extname(req.url);
@@ -22,6 +30,26 @@ const server = http.createServer(async(req,res)=>{
             res.write(html);
             res.end()
             break;
+        case "/api/tasks":
+            const json = await read('./tasks.json');
+            res.writeHead(200,{"Content-Type":"application/json"});
+            res.end(json);
+            break;
+    }
+
+    if(req.method=="POST"&&req.url=="/api/addTask"){
+        let body = '';
+        req.on('data',chunk=>body+=chunk.toString());
+        req.on('end',async()=>{
+            const text = await read('./tasks.json');
+            const tasks = await JSON.parse(text);
+            const task = JSON.parse(body);
+            if(!(tasks.some(t=>t.name===task.name))){
+                tasks.push(task);
+            };const json = JSON.stringify(tasks);
+            await write('./tasks.json',json,'utf-8');
+            res.end();
+        })
     }
 
     switch(extname){
@@ -33,10 +61,10 @@ const server = http.createServer(async(req,res)=>{
             break;
         case ".js":
             const js = await read(path.join(__dirname,"client",req.url));
-            res.writeHead(200,{"Content-type":"application/js"});
+            res.writeHead(200,{"Content-type":"application/javascript"});
             res.write(js);
             res.end();
-            break;
+            break; 
     }
 });
 server.listen(3000);
