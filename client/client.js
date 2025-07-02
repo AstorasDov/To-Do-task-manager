@@ -14,20 +14,20 @@ async function loadTasks(){
 }
 
 async function addTask(task) {
-    fetch('/api/addTask',{
-        "method":"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify(task)
+    return fetch('/api/addTask', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task)
     });
 }
 
-button.addEventListener("click",()=>{
+button.addEventListener("click",async()=>{
     const taskName = input.value.trim();
     console.log(taskName);
     if(taskName!=="" && taskName.length > 5 && taskName.length <= 25){
         const task = {name:input.value};
-        addTask(task);
-        loadTasks();
+        await addTask(task);
+        await loadTasks();
     }
 });
 
